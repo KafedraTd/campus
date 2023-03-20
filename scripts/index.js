@@ -4,6 +4,7 @@ const accordion = document.querySelector('.accordion')
 const url = 'https://script.google.com/macros/s/AKfycbzUHKc80FSAlL7rJRdUth6X61oj2FbIqT4xlfxIdjSIMEfLRcczUJ_hhORmOnJ2pK5JHg/exec'
 
 window.onload = function () {
+    document.querySelector('.loader').classList.remove('loader--hidden');
     const val = '0';
     const url1 = `${url}?type=${val}`;
     fetch(url1)
@@ -11,7 +12,7 @@ window.onload = function () {
         .then(data => {
             data.type = 'GET';
             fillMainTable(data);
-            console.log(data)
+            document.querySelector('.loader').classList.add('loader--hidden');
         })
 }
 

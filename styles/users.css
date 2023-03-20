@@ -135,6 +135,7 @@ button{
   position: relative;
   color: #eeeeee;
   width: 100%;
+  height: 60px;
   border: none;
   cursor: pointer;
   transition: all 0.3s;

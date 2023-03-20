@@ -1,0 +1,221 @@
+* {
+  font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  display: block;
+  justify-content: center;
+  text-align: center;
+}
+
+form {
+  display: inline-block;
+  text-align: center;
+  
+}
+
+h1 {
+
+  color: #0f7a65;
+  border-bottom: #0f7a65 2px solid;
+}
+
+.container {
+  display: inline-block;
+  margin: 20px 0;
+  width: 400px;  
+  height: fit-content;
+  left: 100px;
+}
+
+.mainContainer{
+  text-align: center;
+}
+
+.popup{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.80);
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.8s ease 0s;
+}
+
+.open{
+  opacity: 1;
+  visibility: visible;
+}
+
+#teachers {
+  border: none;
+  background-color: rgb(15, 122, 101, 0.2);
+}
+
+[data-tooltip] {
+  position: relative;
+  cursor: default;
+}
+
+[data-tooltip]::after {
+  position: absolute;
+  width: fit-content;
+  left: calc(50% - var(--tooltipWidth));
+  bottom: 105%;
+  text-align: center;
+  box-sizing: border-box;
+  content: attr(data-tooltip);
+  color: white;
+  background-color: #0f7a65;
+  padding: 8px;
+  font-size: 10px;
+  border-radius: 4px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.2s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.80);
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+table {
+  border-collapse: collapse;
+  max-width: 400px;
+  display: inline-block;
+  background-color: #eeeeee;
+}
+
+
+
+
+th,
+td {
+  border: #0f7a65 1px solid;
+  padding: 10px 3px;
+  text-align: left;
+  transition: all 0.2s;
+  position: relative;
+}
+
+
+tbody tr:hover {
+  background-color: rgb(0, 0, 0, 0.2);
+}
+
+select{
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  font-size: 1em;
+  border: none;
+  text-align: center;
+}
+
+.buttonsDiv{
+  display: block;
+  align-items: center;
+  justify-content: center;
+  text-align:center;
+  width: 100%;
+}
+
+button{
+  position: relative;
+  color: #eeeeee;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#btn1{
+  background-color: rgb(15, 122, 101,0.5);
+}
+#btn0{
+  background-color: rgb(255, 0, 0,0.5);
+}
+
+#btn1:active{
+  background-color: rgba(173, 255, 47,0.4);
+}
+#btn0:active{
+  background-color: #FF033E;
+}
+#btn1:hover{
+  background-color: rgba(173, 255, 47,0.4);
+}
+#btn0:hover{
+  background-color: rgba(255, 0, 0,0.8);
+}
+.hideTrs {
+  display: none;
+}
+#usersFrom{
+  display: inline-block;
+  margin-top: 10px;
+}
+.showTrs {
+  display: table-row;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.hidden {
+  display: none;
+
+}
+#sendingForm{
+  display: none;
+}
+.yel{
+  background-color: rgb(255, 255, 0,0.2);
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  transition: opacity 0.75s, visibility 0.75s;
+}
+
+.loader--hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader::after {
+  content: "";
+  width: 75px;
+  height: 75px;
+  border: 15px solid #dddddd;
+  border-top-color: #009578;
+  border-radius: 50%;
+  animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}

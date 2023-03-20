@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/users.css">
+    <title>Наш кампус</title>
+</head>
+
+<body>
+    <div class="mainContainer">
+        <div class="container">
+            <h1>НАШ КАМПУС (ЛЕТО 2023)</h1>
+            <h2>Ввод данных</h2>
+            <select name="teachers" id="teachers">
+
+            </select>
+        </div>
+        <div id="tableDiv" class="container2">
+            <table id="usersTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Дисциплина
+                        </th>
+                        <th style="display: none;">
+                            Преподаватель
+                        </th>
+                        <th>
+                            Курс
+                        </th>
+                        <th>
+                            Контроль
+                        </th>
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div id="formDiv" class="popup">
+            <form id="usersFrom" class="formDiv" action="">
+                <table id="sendingTable" class="tableDiv">
+                    <thead></thead>
+                    <tbody>
+                        
+                    </tbody>
+                    <!-- <div class="buttonsDiv">
+                        <button type="button" id="btn0">Закрыть</button>
+                        <button type="button" id="btn1">Записать</button>
+                    </div> -->
+                </table>
+            </form>
+            <form id="sendingForm" method="post"
+                action="https://script.google.com/macros/s/AKfycbzUHKc80FSAlL7rJRdUth6X61oj2FbIqT4xlfxIdjSIMEfLRcczUJ_hhORmOnJ2pK5JHg/exec">
+                <input type="text" id="name" name="name">
+                <input type="text" id="value" name="value">
+            </form>
+        </div>
+    </div>
+    <div class="loader loader--hidden"></div>
+    <!-- <script src="scripts/base.js"></script> -->
+    <script src="scripts/users.js"></script>
+</body>
+
+</html>

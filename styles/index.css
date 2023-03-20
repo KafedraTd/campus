@@ -1,0 +1,157 @@
+* {
+  font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+body {
+  text-align: center;
+}
+
+form {
+  display: inline-block;
+  text-align: center;
+  
+}
+
+h1{
+  
+  color: #0f7a65;
+  border-bottom: #0f7a65 2px solid;
+}
+
+button{
+  width: 80px;
+  height: 40px;
+}
+
+[data-tooltip] {
+  position: relative;
+  cursor: default;
+}
+
+[data-tooltip]::after {
+  position: absolute;
+  width: fit-content;
+  left: calc(50% - var(--tooltipWidth));
+  bottom: 105%;
+  text-align: center;
+  box-sizing: border-box;
+  content: attr(data-tooltip);
+  color: white;
+  background-color: #0f7a65;
+  padding: 8px;
+  font-size: 10px;
+  border-radius: 4px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.2s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.80);
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.countDivForSubjectRed{
+  border-radius: 12px;
+  border: rgb(114, 4, 4) 1px solid;
+}
+.countDivForSubjectGre{
+  border-radius: 12px;
+  background-color: #0f7a65;
+  color: #eeeeee;
+}
+table {
+  border-collapse: collapse; 
+}
+
+
+
+td {
+  border: #0f7a65 1px solid;
+  padding: 10px 3px;
+  text-align: center;
+  transition: all 0.2s;
+  position: relative;
+}
+
+
+.courseTd {
+  cursor: pointer;
+}
+
+td.groupTd {
+  cursor: pointer;
+}
+
+tr.courseInfo {
+  background-color: rgb(15, 122, 101, 0.5);
+  font-size: 1em;
+}
+
+tr.groupInfo {
+  background-color: rgb(15, 122, 101, 0.2);
+  font-size: 0.8em
+}
+
+.leftTd {
+  text-align: left;
+}
+
+thead:first-child {
+  position: sticky;
+  top: 10px;
+  background: white;
+}
+
+tr.notFilled {
+  background-color: rgb(220, 20, 60, 0.1);
+}
+
+tr:hover {
+  background-color: rgb(0, 0, 0, 0.4);
+  color: #eeeeee;
+
+}
+
+.fioTd {
+  display: none;
+  font-size: 0.6em;
+  background-color: #eeeeee;
+}
+
+.fioTd--active {
+  display: table-row;
+}
+
+.clickable{
+  cursor: pointer;
+}
+.fioLineOfAuxTable{
+  background-color: #eeeeee;
+}
+
+.red{
+  color: rgb(114, 4, 4);
+}
+
+.gre{
+  color: #0f7a65;
+}
+
+.yel{
+  background-color: rgb(255, 255, 0, 0.5);
+}
+#dialogTag{
+  position: fixed;
+  left: 50vw;
+  top: 50vh;
+  background-color: aqua;
+}
+
+.showDialog{
+  width: 60px;
+  height: 60px;
+}

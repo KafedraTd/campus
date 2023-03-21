@@ -237,13 +237,13 @@ function fillSubTable(result, values, s) {
                 selectTag.classList.add('notes')
                 let txt = `${fio[0]}-${fio[1]}-${fio[2]}-${thArray[thArrayI.indexOf(i)]}`
                 selectTag.id = txt
-                for (let op of ['', 3, 4, 5]) {
+                for (let op of ['', 5]) {
                     let opt = document.createElement('option')
                     opt.value = op
                     opt.textContent = op
                     selectTag.appendChild(opt)
                 }
-                selectTag.selectedIndex = ['', 3, 4, 5].indexOf(fio[i])
+                selectTag.selectedIndex = ['', 5].indexOf(fio[i])
                 selectTag.addEventListener('change', (el) => {
                     el.target.parentElement.classList.add('yel')
                     if (sendingArray.includes(el.target.id)) {

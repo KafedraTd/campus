@@ -173,6 +173,10 @@ button{
   z-index: 1;
 }
 
+.hideSelTeachers{
+  display: none;
+}
+
 .hidden {
   display: none;
 
@@ -182,6 +186,10 @@ button{
 }
 .yel{
   background-color: rgb(255, 255, 0,0.2);
+}
+
+.disableSelectTag{
+  pointer-events:none;
 }
 
 .loader {

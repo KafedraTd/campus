@@ -12,9 +12,16 @@ const sendingNameData = sendingForm.querySelector('#name')
 const sendingValueData = sendingForm.querySelector('#value')
 const selTeachers = document.querySelector('#teachers')
 let generalData = null
+let group = localStorage.getItem('group').split('-')[0]
+let crs = localStorage.getItem('group').split('-')[1]
+
 
 window.onload = function () {
     document.querySelector('.loader').classList.remove('loader--hidden');
+
+    if (group != 'all') {
+        selTeachers.classList.add('hideSelTeachers')
+    }
     const val = '1';
     const url1 = `${url}?type=${val}`;
     fetch(url1)
@@ -22,7 +29,11 @@ window.onload = function () {
         .then(data => {
             data.type = 'GET';
             generalData = data
-            fillMainTable(data)
+            if (group != 'all') {
+                fillMainTableGroup(data, crs)
+            } else {
+                fillMainTable(data)
+            }
             document.querySelector('.loader').classList.add('loader--hidden');
         })
 }
@@ -93,10 +104,59 @@ function fillMainTable(data) {
     }
 }
 
+function fillMainTableGroup(data, crs) {
+
+    for (let subjArray of data.slice(1)) {
+        let className = subjArray[2].replace(/\s/g, '')
+        if (className.indexOf(';') > -1) {
+            let strArr = className.split(';')
+            for (let s of strArr) {
+                let tr = document.createElement('tr')
+                if (subjArray[3].toString() == crs) {
+                    tr.classList.add(s, 'showTrs')
+                } else {
+                    tr.classList.add(s, 'hideTrs')
+                }
+                for (let i of [1, 2, 3, 7]) {
+                    let td = document.createElement('td')
+                    td.classList.add(subjArray[0], subjArray[3], 'clickable')
+                    if (i == 2) {
+                        td.classList.add('hidden')
+                        td.textContent = subjArray[i].split(';')[strArr.indexOf(s)]
+                    } else {
+                        td.textContent = subjArray[i]
+                    }
+                    // td.addEventListener('click', (e) => {
+
+                    //     document.querySelector('.popup').classList.toggle('open')
+                    // })
+                    tr.appendChild(td)
+                }
+                tbody.appendChild(tr)
+            }
+        } else {
+            let tr = document.createElement('tr')
+            if (subjArray[3].toString() == crs) {
+                tr.classList.add(className, 'showTrs')
+            } else {
+                tr.classList.add(className, 'hideTrs')
+            }
+
+            for (let i of [1, 2, 3, 7]) {
+                let td = document.createElement('td')
+                td.classList.add(subjArray[0], subjArray[3], 'clickable')
+                if (i == 2) { td.classList.add('hidden') }
+                td.textContent = subjArray[i]
+                tr.appendChild(td)
+            }
+            tbody.appendChild(tr)
+        }
+    }
+}
+
 function fillSubTable(result, values, s) {
     let pointsQty = 0
     let controlType = 0
-    let controlFact = 0
     let groups = []
     for (let i of values) {
         if (!groups.includes(i[1])) {
@@ -142,6 +202,7 @@ function fillSubTable(result, values, s) {
                 opt.textContent = i
                 sel.appendChild(opt)
             }
+            if(group!=='all'){sel.value=group;sel.classList.add('disableSelectTag')}
             currentGroup = sel.value
             changingOption1[1] = Number(currentGroup)
 
@@ -153,12 +214,13 @@ function fillSubTable(result, values, s) {
 
     }
     theadS.appendChild(tr)
+
     let trss = tbodyS.getElementsByTagName('tr')
     while (trss.length > 0) trss[0].parentNode.removeChild(trss[0])
     for (let fio of values) {
         let tr = document.createElement('tr')
         tr.classList.add(fio[1])
-        if (fio[1] != currentGroup) {
+        if (fio[1] != currentGroup) { //перевести в число
             tr.classList.add('hideTrs')
         }
 
@@ -190,6 +252,7 @@ function fillSubTable(result, values, s) {
                     } else {
                         sendingArray.push(el.target.id.toString() + '-' + el.target.value.toString())
                     }
+                    sendingNameData.value = ''
                     sendingNameData.value = sendingArray
                 })
                 td.appendChild(selectTag)
@@ -226,11 +289,11 @@ function fillSubTable(result, values, s) {
         fetch(url, {
             method: "POST",
             body: new FormData(sendingForm)
-        }).then(()=>{
+        }).then(() => {
             document.querySelector('.loader').classList.add('loader--hidden');
-        document.querySelector('.popup').classList.toggle('open')
+            document.querySelector('.popup').classList.toggle('open')
         }).catch(error => console.error('Error!', error.message))
-        
+
     })
     dv.appendChild(btn0)
     dv.appendChild(btn1)
@@ -283,6 +346,7 @@ document.body.addEventListener('click', (e) => {
         let sub = e.target.classList[0]
         let course = e.target.classList[1]
         if (course == 'clickable') { course = '4' }//Для четвертой дисциплины
+        sendingValueData.value = ''
         sendingValueData.value = course
         let url1 = `${url}?type=${course + sub}`;
         fetch(url1)

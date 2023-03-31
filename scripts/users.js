@@ -6,7 +6,7 @@ const theadS = document.querySelector('#sendingTable').querySelector('thead')
 const tbodyS = document.querySelector('#sendingTable').querySelector('tbody')
 let changingOption0 = [0, 0]
 let changingOption1 = [0, 0]
-let sendingArray = []
+
 const sendingForm = document.getElementById('sendingForm')
 const sendingNameData = sendingForm.querySelector('#name')
 const sendingValueData = sendingForm.querySelector('#value')
@@ -155,6 +155,8 @@ function fillMainTableGroup(data, crs) {
 }
 
 function fillSubTable(result, values, s) {
+    let sendingArray = []
+    let sendingArrayId=[]
     let pointsQty = 0
     let controlType = 0
     let groups = []
@@ -246,10 +248,11 @@ function fillSubTable(result, values, s) {
                 selectTag.selectedIndex = ['', 5].indexOf(fio[i])
                 selectTag.addEventListener('change', (el) => {
                     el.target.parentElement.classList.add('yel')
-                    if (sendingArray.includes(el.target.id)) {
-                        let index = sendingArray.indexOf(el.target.id)
+                    if (sendingArrayId.includes(el.target.id)) {
+                        let index = sendingArrayId.indexOf(el.target.id)
                         sendingArray[index] = el.target.id.toString() + '-' + el.target.value.toString()
                     } else {
+                        sendingArrayId.push(el.target.id)
                         sendingArray.push(el.target.id.toString() + '-' + el.target.value.toString())
                     }
                     sendingNameData.value = ''

@@ -116,12 +116,21 @@ tbody tr:hover {
 
 select{
   background-color: transparent;
+  padding: 0px 0px;
   width: 100%;
   height: 100%;
   font-size: 1em;
   border: none;
   text-align: center;
+  appearance: none;
+  -webkit-appearance: none;
+  background-position-x: 244px;
 }
+option{
+  margin: 0 0;
+  padding: 0 0;
+}
+
 
 .buttonsDiv{
   display: block;

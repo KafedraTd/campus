@@ -76,7 +76,7 @@ window.onload = function () {
                 redValueCount++
                 valuesPerSubject[s]++
             } 
-            else{
+            else if(cValue[0] != -1){
                 td22.appendChild(greCircle)
                 greValueCount++
             }

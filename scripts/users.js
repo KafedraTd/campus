@@ -18,7 +18,6 @@ let crs = localStorage.getItem('group').split('-')[1]
 
 window.onload = function () {
     document.querySelector('.loader').classList.remove('loader--hidden');
-
     if (group != 'all') {
         selTeachers.classList.add('hideSelTeachers')
     }
@@ -81,10 +80,6 @@ function fillMainTable(data) {
                     } else {
                         td.textContent = subjArray[i]
                     }
-                    // td.addEventListener('click', (e) => {
-
-                    //     document.querySelector('.popup').classList.toggle('open')
-                    // })
                     tr.appendChild(td)
                 }
                 tbody.appendChild(tr)
@@ -95,7 +90,7 @@ function fillMainTable(data) {
             for (let i of [1, 2, 3, 7]) {
                 let td = document.createElement('td')
                 td.classList.add(subjArray[0], subjArray[3], 'clickable')
-                if (i == 2) { td.classList.add('hidden') }
+                if (i == 2) { td.classList.add('hidden');}
                 td.textContent = subjArray[i]
                 tr.appendChild(td)
             }
@@ -105,7 +100,6 @@ function fillMainTable(data) {
 }
 
 function fillMainTableGroup(data, crs) {
-
     for (let subjArray of data.slice(1)) {
         let className = subjArray[2].replace(/\s/g, '')
         if (className.indexOf(';') > -1) {
@@ -120,16 +114,13 @@ function fillMainTableGroup(data, crs) {
                 for (let i of [1, 2, 3, 7]) {
                     let td = document.createElement('td')
                     td.classList.add(subjArray[0], subjArray[3], 'clickable')
-                    if (i == 2) {
+                    if (i == 2||i==3) {
                         td.classList.add('hidden')
-                        td.textContent = subjArray[i].split(';')[strArr.indexOf(s)]
+                        try{td.textContent = subjArray[i].split(';')[strArr.indexOf(s)]}
+                        catch{}
                     } else {
                         td.textContent = subjArray[i]
                     }
-                    // td.addEventListener('click', (e) => {
-
-                    //     document.querySelector('.popup').classList.toggle('open')
-                    // })
                     tr.appendChild(td)
                 }
                 tbody.appendChild(tr)
@@ -141,11 +132,10 @@ function fillMainTableGroup(data, crs) {
             } else {
                 tr.classList.add(className, 'hideTrs')
             }
-
             for (let i of [1, 2, 3, 7]) {
                 let td = document.createElement('td')
                 td.classList.add(subjArray[0], subjArray[3], 'clickable')
-                if (i == 2) { td.classList.add('hidden') }
+                if (i == 2||i==3) { td.classList.add('hidden');}
                 td.textContent = subjArray[i]
                 tr.appendChild(td)
             }
@@ -207,13 +197,11 @@ function fillSubTable(result, values, s) {
             if(group!=='all'){sel.value=group;sel.classList.add('disableSelectTag')}
             currentGroup = sel.value
             changingOption1[1] = Number(currentGroup)
-
             th.appendChild(sel)
         } else {
             th.textContent = col
         }
         tr.appendChild(th)
-
     }
     theadS.appendChild(tr)
 
@@ -236,18 +224,24 @@ function fillSubTable(result, values, s) {
                 td.textContent = fio[i]
             } else {
                 let selectTag = document.createElement('select')
-                selectTag.classList.add('notes')
+                selectTag.classList.add('notes', 'material-symbols-outlined')
                 let txt = `${fio[0]}-${fio[1]}-${fio[2]}-${thArray[thArrayI.indexOf(i)]}`
                 selectTag.id = txt
                 for (let op of ['', 5]) {
                     let opt = document.createElement('option')
                     opt.value = op
-                    opt.textContent = op
+                    if(op==5){
+                        opt.textContent='check_box'
+                        opt.classList.add('material-symbols-outlined')
+                    }else{
+                        opt.textContent = op
+                    }
                     selectTag.appendChild(opt)
                 }
                 selectTag.selectedIndex = ['', 5].indexOf(fio[i])
                 selectTag.addEventListener('change', (el) => {
                     el.target.parentElement.classList.add('yel')
+                    el.target.classList.add('gre')
                     if (sendingArrayId.includes(el.target.id)) {
                         let index = sendingArrayId.indexOf(el.target.id)
                         sendingArray[index] = el.target.id.toString() + '-' + el.target.value.toString()
@@ -258,15 +252,14 @@ function fillSubTable(result, values, s) {
                     sendingNameData.value = ''
                     sendingNameData.value = sendingArray
                 })
+                td.classList.add('containsNote')
                 td.appendChild(selectTag)
             }
             tr.appendChild(td)
         }
         tbodyS.append(tr)
-
     }
 
-    let buttons = document.createElement('tr')
     let dv = document.createElement('div')
     dv.className = 'buttonsDiv'
     let dvs = document.getElementsByClassName('del')
@@ -279,7 +272,6 @@ function fillSubTable(result, values, s) {
     btn0.addEventListener('click', () => {
         document.querySelector('.popup').classList.toggle('open')
     })
-
 
     let btn1 = document.createElement('button')
     btn1.id = 'btn1'
@@ -307,13 +299,10 @@ function selectGroup(el) {
     changingOption1[0] = changingOption1[1]
     changingOption1[1] = Number(el.target.value)
     if (el.target.value != 0) {
-
         let tableRows = document.getElementsByClassName(el.target.value)
         hiddenRows = Array.prototype.slice.call(tableRows)
         hiddenRows.forEach(tr => {
-
             tr.classList.toggle('hideTrs')
-
         })
     }
     let tableRows2 = document.getElementsByClassName(changingOption1[0])
@@ -361,19 +350,5 @@ document.body.addEventListener('click', (e) => {
                 document.querySelector('.loader').classList.add('loader--hidden');
                 document.querySelector('.popup').classList.toggle('open')
             })
-
     }
 })
-
-// document.getElementById('btn0').addEventListener('click', (e) => {
-//     document.querySelector('.popup').classList.toggle('open')
-// })
-
-// document.getElementById('btn1').addEventListener('click', (e) => {
-//     e.preventDefault()
-//     fetch(url, {
-//         method: "POST",
-//         body: new FormData(sendingForm)
-//     }).catch(error => console.error('Error!', error.message))
-//     document.querySelector('.popup').classList.toggle('open')
-// })

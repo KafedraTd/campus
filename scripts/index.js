@@ -219,7 +219,6 @@ function fillMainTable(result) {
             // divContent.appendChild(table)
             //accordion.appendChild(table)
         }
-        let tableLine = document.createElement('table')
 
     }
 }

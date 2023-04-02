@@ -71,7 +71,9 @@ table {
 
 
 td {
-  border: #0f7a65 1px solid;
+  /* border: #0f7a65 1px solid; */
+  /* border: #eeeeee 1px solid; */
+  border: none;
   padding: 10px 3px;
   text-align: center;
   transition: all 0.2s;
@@ -116,13 +118,11 @@ tr.notFilled {
 tr:hover {
   background-color: rgb(0, 0, 0, 0.4);
   color: #eeeeee;
-
 }
 
 .fioTd {
   display: none;
   font-size: 0.6em;
-  background-color: #eeeeee;
 }
 
 .fioTd--active {

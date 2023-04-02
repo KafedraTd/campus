@@ -16,8 +16,8 @@ window.onload = function () {
         })
 }
 
-let transferingData1=0
-let transferingData2=0
+let transferingData1 = 0
+let transferingData2 = 0
 const tds = ['Курс', 'Группа', 'Студенты', 'Точки', 'Зачеты', 'Экзамены', 'Курсовые', 'Отчеты', 'Всего']
 const table = document.querySelector('#mainTable')
 const thead = table.querySelector('thead')
@@ -53,8 +53,8 @@ document.body.addEventListener('click', (e) => {
             localStorage.setItem('c', data[0])
             localStorage.setItem('g', data[1])
             localStorage.setItem('f', data[2])
-            localStorage.setItem('d1',JSON.stringify(transferingData1))
-            localStorage.setItem('d2',JSON.stringify(transferingData2))
+            localStorage.setItem('d1', JSON.stringify(transferingData1))
+            localStorage.setItem('d2', JSON.stringify(transferingData2))
             window.open("auxiliary.html", '_blank')
         }
 
@@ -68,8 +68,8 @@ function fillMainTable(result) {
     let mainData = result[0]
     let specData = result[1]
     let tutsData = result[3]
-    transferingData1=result[1]
-    transferingData2=result[2]
+    transferingData1 = result[1]
+    transferingData2 = result[2]
     for (const cr in mainData) {
         if (mainData.hasOwnProperty(cr)) {
             let courseData = []
@@ -92,11 +92,13 @@ function fillMainTable(result) {
             if (groups) { groupsQty = groups.length }
             if (groups) {
                 for (let gr of groups) {
+                    let creditsGrValue = credits[gr]
+                    if (credits[gr][0] == 0) { creditsGrValue = [0, 0] }
                     let studVal = calcValuesByGroup(gr, 0, result[1])
                     let totalStudVal = studts[groups.indexOf(gr)]
                     let totalDebtPerGroup = 0
                     let totalTotalDebtPerGroup = 0
-                    for (let i of [credits[gr], exams[gr], esses[gr], reports[gr]]) {
+                    for (let i of [creditsGrValue, exams[gr], esses[gr], reports[gr]]) {
                         totalDebtPerGroup = totalDebtPerGroup + i[1]
                         totalTotalDebtPerGroup = totalTotalDebtPerGroup + i[0] + i[1]
                     }
@@ -110,8 +112,8 @@ function fillMainTable(result) {
                     ptQty[0] = ptQty[0] + points[gr][1]
                     ptQty[1] = ptQty[1] + points[gr][0] + points[gr][1]
 
-                    crQty[0] = crQty[0] + credits[gr][1]
-                    crQty[1] = crQty[1] + credits[gr][0] + credits[gr][1]
+                    crQty[0] = crQty[0] + creditsGrValue[1]
+                    crQty[1] = crQty[1] + creditsGrValue[0] + creditsGrValue[1]
                     exQty[0] = exQty[0] + exams[gr][1]
                     exQty[1] = exQty[1] + exams[gr][0] + exams[gr][1]
                     esQty[0] = esQty[0] + esses[gr][1]
@@ -145,27 +147,29 @@ function fillMainTable(result) {
                     let totalStudVal = studts[groups.indexOf(gr)]
                     let totalDebtPerGroup = 0
                     let totalTotalDebtPerGroup = 0
-                    for (let i of [credits[gr], exams[gr], esses[gr], reports[gr]]) {
+                    let creditsGrValue = credits[gr]
+                    if (credits[gr][0] == 0) { creditsGrValue = [0, 0] }
+                    for (let i of [creditsGrValue, exams[gr], esses[gr], reports[gr]]) {
                         totalDebtPerGroup = totalDebtPerGroup + i[1]
                         totalTotalDebtPerGroup = totalTotalDebtPerGroup + i[0] + i[1]
                     }
 
-                    let valuesArray = [[cr, 0], [gr, 1], [studVal, totalStudVal], [points[gr][1], points[gr][0] + points[gr][1]], [credits[gr][1], credits[gr][0] + credits[gr][1]], [exams[gr][1], exams[gr][0] + exams[gr][1]], [esses[gr][1], esses[gr][0] + esses[gr][1]], [reports[gr][1], reports[gr][0] + reports[gr][1]], [totalDebtPerGroup, totalTotalDebtPerGroup]]
+                    let valuesArray = [[cr, 0], [gr, 1], [studVal, totalStudVal], [points[gr][1], points[gr][0] + points[gr][1]], [creditsGrValue[1], creditsGrValue[0] + creditsGrValue[1]], [exams[gr][1], exams[gr][0] + exams[gr][1]], [esses[gr][1], esses[gr][0] + esses[gr][1]], [reports[gr][1], reports[gr][0] + reports[gr][1]], [totalDebtPerGroup, totalTotalDebtPerGroup]]
                     let studentsByNameArray = specData[gr]
-                    
+
                     let trr = document.createElement('tr')
                     trr.classList.add(cr, gr, 'groupInfo')
                     for (let t of valuesArray) {
                         let td = document.createElement('td')
                         td.classList.add(cr, gr, 'groupTd', 'clickable')
-                        
+
                         if (t[1] == 1) {
                             let tutor = tutsData[cr][0][tutsData[cr][1].indexOf(gr.toString())]
                             td.setAttribute('data-tooltip', `Куратор: ${tutor}`)
                             td.textContent = t[0]
                         } else if (t[1] == 0) {
                             td.textContent = t[0]
-                        }else{
+                        } else {
                             let txt = `из ${t[1]} (${Math.round(t[0] / t[1] * 100)}%)`
                             td.setAttribute('data-tooltip', txt)
                             td.textContent = t[0]
@@ -181,8 +185,7 @@ function fillMainTable(result) {
                             let studentsArray = calcValuesByGroup(gr, 1, result[1])
                             let trrr = document.createElement('tr')
                             trrr.classList.add(cr, gr, 'fioTd')
-
-                            if (studentsArray[fio].slice(-1)[0][0] != 0) {
+                            if (studentsArray[fio].slice(-1)[0][0] != 0 || studentsArray[fio][0][0] != 0) {
                                 trrr.classList.add('notFilled')
                             }
                             for (let i of [cr, gr, fio]) {
@@ -201,6 +204,7 @@ function fillMainTable(result) {
                                 td2.setAttribute('data-tool', txt)
                                 txt = `из ${el[1]} (${Math.round(el[0] / el[1] * 100)}%)`
                                 td2.setAttribute('data-tooltip', txt)
+                                
                                 td2.textContent = el[0]
                                 //tdd.classList.add(gr,'disapearingTd')
                                 trrr.appendChild(td2)
@@ -255,14 +259,14 @@ function calcValuesByGroup(gr, num, specData) {
                                 let contrType = studData[predmet]['contr'][2]
                                 let pData = studData[predmet]['points'][1]
                                 let cData = studData[predmet]['contr'][0]
-
-                                if (pData != 0 || cData == 0) {  //когда поменяю в Appscript надо поменять здесь
+                                if (pData != 0 || cData == 0) {
                                     studCount++
                                 }
                                 poinCount = poinCount + pData
                                 poinCountT = poinCountT + studData[predmet]['points'][0] + pData
+                                
                                 if (contrType == 'Зачет' || contrType == 'ДифЗ') {
-                                    if (cData == 0) {
+                                    if (pData != 0) {
                                         credCount++
                                     }
                                     credCountT++
@@ -289,6 +293,7 @@ function calcValuesByGroup(gr, num, specData) {
                                 totalDebtPerStudentT = credCountT + examCountT + esseCountT + repoCountT
                             }
                         }
+                        
                         if (studCount != 0) { studentsCount++ }//складываем студентов
                         studentsValue[fio].push([poinCount, poinCountT], [credCount, credCountT], [examCount, examCountT], [esseCount, esseCountT], [repoCount, repoCountT], [totalDebtPerStudent, totalDebtPerStudentT])
                     }

@@ -29,17 +29,31 @@ h1 {
   display: block;
 }
 
-.container,
-.container2{
-   
+.container{
+  font-size: 70%;
+}
+
+.container{
   left: 0; 
   right: 0; 
   margin-left: auto; 
   margin-right: auto; 
   display: block;
-  width: 400px;  
+  width: 375px;
+  min-width: 200px;
   height: fit-content;
   margin-bottom: 10px;
+}
+
+.container2{
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  display: block;
+  width: 375px;
+  min-width: 200px;
+  height: fit-content;
 }
 
 

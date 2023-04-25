@@ -6,6 +6,8 @@ body {
   text-align: center;
 }
 
+
+
 form {
   display: inline-block;
   text-align: center;
@@ -39,7 +41,7 @@ button{
   color: white;
   background-color: #0f7a65;
   padding: 8px;
-  font-size: 10px;
+  font-size: 14px;
   border-radius: 4px;
   visibility: hidden;
   opacity: 0;

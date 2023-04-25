@@ -51,13 +51,18 @@ window.onload = function () {
         let greValueCount = 0
 
         for (let s of subjects) {
-
+            
             let redCircle = document.createElement('span')
             redCircle.classList.add('material-symbols-outlined', 'red', 'clickable')
-            redCircle.textContent = 'radio_button_checked'
             let greCircle = document.createElement('span')
             greCircle.classList.add('material-symbols-outlined', 'gre', 'clickable')
-            greCircle.textContent = 'check_box'
+            let doneCircle = document.createElement('span')
+            doneCircle.classList.add('material-symbols-outlined', 'gre', 'clickable')
+            
+            redCircle.textContent = 'radio_button_checked'
+            greCircle.textContent = 'done'
+            doneCircle.textContent = 'star'
+            
             let td22 = document.createElement('td')
             redCircle.id = `${course}-${group}-${fioLine}=${s}`
             greCircle.id = `${course}-${group}-${fioLine}=${s}`
@@ -69,31 +74,41 @@ window.onload = function () {
             if (pValue[0] == 0 && pValue[1] == 0) {//если точки не наступили
 
             } else if(cValue[2]=='Зачет'){// если зачет по предмету
-                if (pValue[0] != 0 && pValue[1] == 0 && cValue[0] == 0) {// если все наступившие точки сданы
+                if (cValue[0] == 1) {// если все наступившие точки сданы
+                    td22.appendChild(doneCircle)
+                    doneCircle.setAttribute('data-tooltip', 'Есть зачет')
+                    greValueCount++
+                }else if(pValue[0] != 0 && pValue[1] == 0){
+                    greCircle.setAttribute('data-tooltip', `Пока норм`)
                     td22.appendChild(greCircle)
                     greValueCount++
                 }else if(pValue[1] != 0){// если какие-то точки не сданы
-                    redCircle.setAttribute('data-tooltip', `Точки`)
+                    redCircle.setAttribute('data-tooltip', `Не все закрыты`)
                     td22.appendChild(redCircle)
                     redValueCount++
                     valuesPerSubject[s]++
                 }
             }else{// если экзамен, курсовая или отчет по предмету
-                if (pValue[0] != 0 && pValue[1] == 0 && (cValue[0] == -1||cValue[0]!=0)) {// если точки наступили и все они сданы и если экзамен не наступил или наступил и получена оценка по нему
+                if (cValue[0]==1) {// если точки наступили и все они сданы и если экзамен не наступил или наступил и получена оценка по нему
+                    greCircle.setAttribute('data-tooltip', "Экзамен сдан")
+                    td22.appendChild(greCircle)
+                    greValueCount++
+                }else if(pValue[0] != 0 && pValue[1] == 0 && cValue[0] == -1){
+                    greCircle.setAttribute('data-tooltip', "Пока норм")
                     td22.appendChild(greCircle)
                     greValueCount++
                 }else if(pValue[1] != 0&&cValue[0] == -1){// если какие-то точки не сданы и экзамен не наступил
-                    redCircle.setAttribute('data-tooltip', `Точки`)
+                    redCircle.setAttribute('data-tooltip', `Не все закрыты`)
                     td22.appendChild(redCircle)
                     redValueCount++
                     valuesPerSubject[s]++
                 }else if(pValue[1] != 0&&cValue[0] == 0){// если какие-то точки не сданы и экзамен наступил, но не сдан
-                    redCircle.setAttribute('data-tooltip', `Точки и ${cValue[2]}`)
+                    redCircle.setAttribute('data-tooltip', `Точки и ${cValue[2]} не закрыты`)
                     td22.appendChild(redCircle)
                     redValueCount++
                     valuesPerSubject[s]++
                 }else if(pValue[1] == 0&&cValue[0] == 0){// если все точки сданы и экзамен наступил, но не сдан
-                    redCircle.setAttribute('data-tooltip', `${cValue[2]}`)
+                    redCircle.setAttribute('data-tooltip', `${cValue[2]} не сдан(а)`)
                     td22.appendChild(redCircle)
                     redValueCount++
                     valuesPerSubject[s]++
@@ -152,6 +167,6 @@ document.body.addEventListener('click', (e) => {
             element2.textContent = `${number2 - 1}`
         }
         target.classList.add('yel')
-    } catch { }
+    } catch (e){ console.log(e)}
 
 })

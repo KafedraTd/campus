@@ -1,4 +1,5 @@
 
+
 const btn1 = document.querySelector('#btn1');
 const accordion = document.querySelector('.accordion')
 const url = 'https://script.google.com/macros/s/AKfycbzUHKc80FSAlL7rJRdUth6X61oj2FbIqT4xlfxIdjSIMEfLRcczUJ_hhORmOnJ2pK5JHg/exec'
@@ -148,12 +149,13 @@ function fillMainTable(result) {
                     let totalDebtPerGroup = 0
                     let totalTotalDebtPerGroup = 0
                     let creditsGrValue = credits[gr]
+                    
                     if (credits[gr][0] == 0) { creditsGrValue = [0, 0] }
                     for (let i of [creditsGrValue, exams[gr], esses[gr], reports[gr]]) {
                         totalDebtPerGroup = totalDebtPerGroup + i[1]
                         totalTotalDebtPerGroup = totalTotalDebtPerGroup + i[0] + i[1]
                     }
-
+                    
                     let valuesArray = [[cr, 0], [gr, 1], [studVal, totalStudVal], [points[gr][1], points[gr][0] + points[gr][1]], [creditsGrValue[1], creditsGrValue[0] + creditsGrValue[1]], [exams[gr][1], exams[gr][0] + exams[gr][1]], [esses[gr][1], esses[gr][0] + esses[gr][1]], [reports[gr][1], reports[gr][0] + reports[gr][1]], [totalDebtPerGroup, totalTotalDebtPerGroup]]
                     let studentsByNameArray = specData[gr]
 
@@ -188,6 +190,10 @@ function fillMainTable(result) {
                             if (studentsArray[fio].slice(-1)[0][0] != 0 || studentsArray[fio][0][0] != 0) {
                                 trrr.classList.add('notFilled')
                             }
+                            // if(studentsArray[fio][0][0]>5){
+                            //     txt=fio+'-'+gr.toString()+'-'+studentsArray[fio][0][0].toString()+'-'+studentsArray[fio][0][1]
+                            //     console.log(txt)
+                            // }
                             for (let i of [cr, gr, fio]) {
                                 let td1 = document.createElement('td')
                                 td1.classList.add('clickable')
@@ -204,7 +210,6 @@ function fillMainTable(result) {
                                 td2.setAttribute('data-tool', txt)
                                 txt = `из ${el[1]} (${Math.round(el[0] / el[1] * 100)}%)`
                                 td2.setAttribute('data-tooltip', txt)
-                                
                                 td2.textContent = el[0]
                                 //tdd.classList.add(gr,'disapearingTd')
                                 trrr.appendChild(td2)

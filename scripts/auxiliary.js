@@ -1,16 +1,20 @@
 
 window.onload = function () {
+    glancePicture(1)
+}
+
+function glancePicture(type) {
     let course = localStorage.getItem('c')
     let group = localStorage.getItem('g')
     let fio = localStorage.getItem('f')
     let thead = document.querySelector('table').querySelector('thead')
     let tbody = document.querySelector('table').querySelector('tbody')
-
+    document.title = 'Группа ' + group
     let specData = localStorage.getItem('d1')
     specData = JSON.parse(specData)
     let tchsData = localStorage.getItem('d2')
     tchsData = JSON.parse(tchsData)
-
+    console.log(specData)
     let studentsArray = Object.keys(specData[group])
     let subjects = Object.keys(specData[group][fio])
     let valuesPerSubject = {}
@@ -38,7 +42,7 @@ window.onload = function () {
     td13.appendChild(dv13)
     tr1.appendChild(td13)
     thead.appendChild(tr1)
-    console.log(specData)
+
     for (let fioLine of studentsArray) {
 
         let tr2 = document.createElement('tr')
@@ -51,69 +55,112 @@ window.onload = function () {
         let greValueCount = 0
 
         for (let s of subjects) {
-            
-            let redCircle = document.createElement('span')
-            redCircle.classList.add('material-symbols-outlined', 'red', 'clickable')
-            let greCircle = document.createElement('span')
-            greCircle.classList.add('material-symbols-outlined', 'gre', 'clickable')
-            let doneCircle = document.createElement('span')
-            doneCircle.classList.add('material-symbols-outlined', 'gre', 'clickable')
-            
-            redCircle.textContent = 'radio_button_checked'
-            greCircle.textContent = 'done'
-            doneCircle.textContent = 'star'
-            
+
             let td22 = document.createElement('td')
-            redCircle.id = `${course}-${group}-${fioLine}=${s}`
-            greCircle.id = `${course}-${group}-${fioLine}=${s}`
+            // redCircle.id = `${course}-${group}-${fioLine}=${s}`
+            // greCircle.id = `${course}-${group}-${fioLine}=${s}`
 
             let cValue = specData[group][fioLine][s]['contr']
             let pValue = specData[group][fioLine][s]['points']
             //pValue[1]==0 - точки закрыты
             //cValue[0]==0 - экзамены не закрыты
-            if (pValue[0] == 0 && pValue[1] == 0) {//если точки не наступили
 
-            } else if(cValue[2]=='Зачет'){// если зачет по предмету
-                if (cValue[0] == 1) {// если все наступившие точки сданы
-                    td22.appendChild(doneCircle)
-                    doneCircle.setAttribute('data-tooltip', 'Есть зачет')
-                    greValueCount++
-                }else if(pValue[0] != 0 && pValue[1] == 0){
-                    greCircle.setAttribute('data-tooltip', `Пока норм`)
-                    td22.appendChild(greCircle)
-                    greValueCount++
-                }else if(pValue[1] != 0){// если какие-то точки не сданы
-                    redCircle.setAttribute('data-tooltip', `Не все закрыты`)
-                    td22.appendChild(redCircle)
-                    redValueCount++
-                    valuesPerSubject[s]++
+            if (type == 0) {
+                if (pValue[0] == 0 && pValue[1] == 0) {//если точки не наступили
+                } else if (cValue[2] == 'Зачет') {// если зачет по предмету
+                    if (cValue[0] == 1) {// если все наступившие точки сданы
+                        let doneCircle = document.createElement('span')
+                        doneCircle.classList.add('material-symbols-outlined', 'gre', 'clickable')
+                        doneCircle.textContent = 'star'
+                        td22.appendChild(doneCircle)
+                        doneCircle.setAttribute('data-tooltip', 'Есть зачет')
+                        greValueCount++
+                    } else if (pValue[0] != 0 && pValue[1] == 0) {
+                        let greCircle = document.createElement('span')
+                        greCircle.classList.add('material-symbols-outlined', 'gre', 'clickable')
+                        greCircle.textContent = 'done'
+                        greCircle.setAttribute('data-tooltip', `Пока норм`)
+                        td22.appendChild(greCircle)
+                        greValueCount++
+                    } else if (pValue[1] != 0) {// если какие-то точки не сданы
+                        let redCircle = document.createElement('span')
+                        redCircle.classList.add('material-symbols-outlined', 'red', 'clickable')
+                        redCircle.textContent = 'radio_button_checked'
+                        redCircle.setAttribute('data-tooltip', `Не все закрыты`)
+                        td22.appendChild(redCircle)
+                        redValueCount++
+                        valuesPerSubject[s]++
+                    }
+                } else {// если экзамен, курсовая или отчет по предмету
+                    if (cValue[0] == 1) {// если точки наступили и все они сданы и если экзамен не наступил или наступил и получена оценка по нему
+                        let greCircle = document.createElement('span')
+                        greCircle.classList.add('material-symbols-outlined', 'gre', 'clickable')
+                        greCircle.textContent = 'done'
+                        greCircle.setAttribute('data-tooltip', "Экзамен сдан")
+                        td22.appendChild(greCircle)
+                        greValueCount++
+                    } else if (pValue[0] != 0 && pValue[1] == 0 && cValue[0] == -1) {
+                        let greCircle = document.createElement('span')
+                        greCircle.classList.add('material-symbols-outlined', 'gre', 'clickable')
+                        greCircle.textContent = 'done'
+                        greCircle.setAttribute('data-tooltip', "Пока норм")
+                        td22.appendChild(greCircle)
+                        greValueCount++
+                    } else if (pValue[1] != 0 && cValue[0] == -1) {// если какие-то точки не сданы и экзамен не наступил
+                        let redCircle = document.createElement('span')
+                        redCircle.classList.add('material-symbols-outlined', 'red', 'clickable')
+                        redCircle.textContent = 'radio_button_checked'
+                        redCircle.setAttribute('data-tooltip', `Не все закрыты`)
+                        td22.appendChild(redCircle)
+                        redValueCount++
+                        valuesPerSubject[s]++
+                    } else if (pValue[1] != 0 && cValue[0] == 0) {// если какие-то точки не сданы и экзамен наступил, но не сдан
+                        let redCircle = document.createElement('span')
+                        redCircle.classList.add('material-symbols-outlined', 'red', 'clickable')
+                        redCircle.textContent = 'radio_button_checked'
+                        redCircle.setAttribute('data-tooltip', `Точки и ${cValue[2]} не закрыты`)
+                        td22.appendChild(redCircle)
+                        redValueCount++
+                        valuesPerSubject[s]++
+                    } else if (pValue[1] == 0 && cValue[0] == 0) {// если все точки сданы и экзамен наступил, но не сдан
+                        let redCircle = document.createElement('span')
+                        redCircle.classList.add('material-symbols-outlined', 'red', 'clickable')
+                        redCircle.textContent = 'radio_button_checked'
+                        redCircle.setAttribute('data-tooltip', `${cValue[2]} не сдан(а)`)
+                        td22.appendChild(redCircle)
+                        redValueCount++
+                        valuesPerSubject[s]++
+                    }
                 }
-            }else{// если экзамен, курсовая или отчет по предмету
-                if (cValue[0]==1) {// если точки наступили и все они сданы и если экзамен не наступил или наступил и получена оценка по нему
-                    greCircle.setAttribute('data-tooltip', "Экзамен сдан")
-                    td22.appendChild(greCircle)
-                    greValueCount++
-                }else if(pValue[0] != 0 && pValue[1] == 0 && cValue[0] == -1){
-                    greCircle.setAttribute('data-tooltip', "Пока норм")
-                    td22.appendChild(greCircle)
-                    greValueCount++
-                }else if(pValue[1] != 0&&cValue[0] == -1){// если какие-то точки не сданы и экзамен не наступил
-                    redCircle.setAttribute('data-tooltip', `Не все закрыты`)
-                    td22.appendChild(redCircle)
-                    redValueCount++
-                    valuesPerSubject[s]++
-                }else if(pValue[1] != 0&&cValue[0] == 0){// если какие-то точки не сданы и экзамен наступил, но не сдан
-                    redCircle.setAttribute('data-tooltip', `Точки и ${cValue[2]} не закрыты`)
-                    td22.appendChild(redCircle)
-                    redValueCount++
-                    valuesPerSubject[s]++
-                }else if(pValue[1] == 0&&cValue[0] == 0){// если все точки сданы и экзамен наступил, но не сдан
-                    redCircle.setAttribute('data-tooltip', `${cValue[2]} не сдан(а)`)
-                    td22.appendChild(redCircle)
-                    redValueCount++
-                    valuesPerSubject[s]++
+            }else if (type==1){
+                let totalPointsPerSubject=pValue[3]
+                let passedPoints=pValue[0]+pValue[1]
+                for (i=0;i<totalPointsPerSubject;i++){
+                    let circle = document.createElement('div')
+                    if (pValue[2].includes(i+1)){
+                        circle.classList.add('material-symbols-outlined', 'gre', 'clickable')
+                        circle.textContent = 'done'
+                        greValueCount++
+                    }else{
+                        if (passedPoints<i+1){
+                            console.log(fio, s, passedPoints)
+                            circle.classList.add('material-symbols-outlined', 'white', 'clickable')
+                            circle.textContent = 'radio_button_checked'
+                        }else{
+                            circle.classList.add('material-symbols-outlined', 'red', 'clickable')
+                            circle.textContent = 'radio_button_checked'
+                            redValueCount++
+                            valuesPerSubject[s]++
+                        }
+                        
+                    }
+                    td22.appendChild(circle)
                 }
+                
+                
+
             }
+
             tr2.appendChild(td22)
         }
 
@@ -167,6 +214,6 @@ document.body.addEventListener('click', (e) => {
             element2.textContent = `${number2 - 1}`
         }
         target.classList.add('yel')
-    } catch (e){ console.log(e)}
+    } catch (e) { console.log(e) }
 
 })

@@ -74,42 +74,25 @@ tr{
   color: #eeeeee;
 }
 table {
-  border-collapse: collapse;
   height: 1px;
   width: 1px;
 }
 
-
+span{
+  display: flex;
+}
 
 td {
   /* border: #0f7a65 1px solid; */
   /* border: #eeeeee 1px solid; */
   height: 100%;
-  width: 100%;
+  width: 1%;
+  white-space: nowrap;
   border: none;
   padding: 10px 3px;
   text-align: center;
   transition: all 0.2s;
   position: relative;
-}
-
-.rC{
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(114, 4, 4, 0.2);
-}
-
-.rCbar{
-  width: 50%;
-  height: 100%;
-  background-color: rgb(114, 4, 4);
-}
-
-.rCtxt{
-  position: absolute;
-  top: 0;
-  right: 50%;
 }
 
 .courseTd {
@@ -178,6 +161,12 @@ tr:hover {
 .yel{
   background-color: rgb(255, 255, 0, 0.5);
 }
+
+.white{
+  color: white;
+}
+
+
 #dialogTag{
   position: fixed;
   left: 50vw;

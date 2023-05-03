@@ -15,19 +15,17 @@ form {
 }
 
 h1{
+  
   color: #0f7a65;
   border-bottom: #0f7a65 2px solid;
 }
-
 
 button{
   width: 80px;
   height: 40px;
 }
 
-.container{
-  font-size: 70%;
-}
+
 
 [data-tooltip] {
   position: relative;
@@ -37,7 +35,7 @@ button{
 [data-tooltip]::after {
   position: absolute;
   width: fit-content;
-  left: 0;
+  left: calc(50% - var(--tooltipWidth));
   bottom: 105%;
   text-align: center;
   box-sizing: border-box;
@@ -47,7 +45,6 @@ button{
   padding: 8px;
   font-size: 14px;
   border-radius: 4px;
-  font-family: Arial, Helvetica, sans-serif;
   visibility: hidden;
   opacity: 0;
   transform: translateY(10px);
@@ -68,34 +65,67 @@ tr{
 }
 
 .countDivForSubjectRed{
-  border-radius: 6px;
-  /* border: rgb(114, 4, 4) 1px solid; */
+  border-radius: 12px;
+  border: rgb(114, 4, 4) 1px solid;
 }
 .countDivForSubjectGre{
   border-radius: 12px;
-  /* color: #eeeeee; */
+  background-color: #0f7a65;
+  color: #eeeeee;
 }
 table {
+  border-collapse: collapse;
   height: 1px;
   width: 1px;
 }
 
-span{
-  display: flex;
-  margin: auto auto;
-}
+
 
 td {
   /* border: #0f7a65 1px solid; */
   /* border: #eeeeee 1px solid; */
+  
   height: 100%;
-  width: 1%;
-  white-space: nowrap;
+  width: 100%;
   border: none;
   padding: 10px 3px;
   text-align: center;
   transition: all 0.2s;
   position: relative;
+}
+
+.rC{
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(114, 4, 4, 0.2);
+}
+
+.tdDiv{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+span{
+  margin: 2px;
+  text-decoration: none;
+}
+
+a{
+  color: black;
+}
+
+.material-symbols-outlined:hover{
+  cursor: pointer;
+  color: orange;
+}
+
+
+
+.numInput{
+  width: 50px;
+  
 }
 
 .courseTd {
@@ -120,10 +150,15 @@ tr.groupInfo {
   text-align: left;
 }
 
+.hidePopup{
+  display: none;
+}
+
 thead:first-child {
   position: sticky;
   top: 10px;
-  background: #7ebaae;
+  background: white;
+  
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   z-index: 1;
 }
@@ -132,14 +167,9 @@ tr.notFilled {
   background-color: rgb(220, 20, 60, 0.1);
 }
 
-.closed{
-  background-color: #7ebaae;
-}
-
-
-.fioLineOfAuxTable:hover {
-  background-color: rgb(0, 0, 0, 0.4);
-  /* color: #eeeeee; */
+tr:not(:first-child):hover {
+  background-color: rgb(0, 0, 0, 0.3);
+  
 }
 
 .fioTd {
@@ -162,6 +192,10 @@ tr.notFilled {
   color: rgb(114, 4, 4);
 }
 
+.redNumberSpan{
+  background-color:rgb(220, 20, 60, 0.1);
+}
+
 .gre{
   color: #0f7a65;
 }
@@ -170,17 +204,7 @@ tr.notFilled {
   background-color: rgb(255, 255, 0, 0.5);
 }
 
-.white{
-  color: white;
-}
 
-
-#dialogTag{
-  position: fixed;
-  left: 50vw;
-  top: 50vh;
-  background-color: aqua;
-}
 
 .showDialog{
   width: 60px;
@@ -199,33 +223,6 @@ tr.notFilled {
   background: rgba(0, 0, 0, 0.2);
   transition: opacity 0.75s, visibility 0.75s;
   z-index: 2;
-}
-
-.pointsQty{
-  text-align: center;
-}
-.pointsQty::before{
-  content: '\e836';
-  font-family: 'Material Symbols Outlined';
-  margin: auto, auto;
-  color: rgb(114, 4, 4);
-}
-.studentsQty{
-  text-align: center;
-}
-
-.studentsQty::before{
-  content: '\e92c';
-  font-family: 'Material Symbols Outlined';
-  margin: auto, auto;
-  color: rgb(114, 4, 4);;
-}
-
-.ptQ:hover,
-.stQ:hover{
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.80);
-  background-color: white;
-  cursor: pointer;
 }
 
 .loader--hidden {

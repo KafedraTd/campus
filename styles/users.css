@@ -51,6 +51,7 @@ h1 {
   margin-right: auto; 
   display: block;
   width: 375px;
+  min-width: 200px;
   height: fit-content;
 }
 

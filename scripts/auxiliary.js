@@ -21,6 +21,7 @@ function glancePicture(type) {
     let countStudents={}
 
     let tr1 = document.createElement('tr')
+    
     let td11 = document.createElement('td')
     td11.textContent = `Группа ${group}`
     tr1.appendChild(td11)
@@ -103,7 +104,7 @@ function glancePicture(type) {
                     } else if (pValue[1] != 0) {// если какие-то точки не сданы
                         let redCircle = document.createElement('span')
                         redCircle.classList.add('material-symbols-outlined', 'red', 'clickable')
-                        redCircle.textContent = 'radio_button_checked'
+                        redCircle.textContent = 'radio_button_unchecked'
                         redCircle.setAttribute('data-tooltip', `Не все закрыты`)
                         td22.appendChild(redCircle)
                         redValueCount++
@@ -127,7 +128,7 @@ function glancePicture(type) {
                     } else if (pValue[1] != 0 && cValue[0] == -1) {// если какие-то точки не сданы и экзамен не наступил
                         let redCircle = document.createElement('span')
                         redCircle.classList.add('material-symbols-outlined', 'red', 'clickable')
-                        redCircle.textContent = 'radio_button_checked'
+                        redCircle.textContent = 'radio_button_unchecked'
                         redCircle.setAttribute('data-tooltip', `Не все закрыты`)
                         td22.appendChild(redCircle)
                         redValueCount++
@@ -135,7 +136,7 @@ function glancePicture(type) {
                     } else if (pValue[1] != 0 && cValue[0] == 0) {// если какие-то точки не сданы и экзамен наступил, но не сдан
                         let redCircle = document.createElement('span')
                         redCircle.classList.add('material-symbols-outlined', 'red', 'clickable')
-                        redCircle.textContent = 'radio_button_checked'
+                        redCircle.textContent = 'radio_button_unchecked'
                         redCircle.setAttribute('data-tooltip', `Точки и ${cValue[2]} не закрыты`)
                         td22.appendChild(redCircle)
                         redValueCount++
@@ -143,7 +144,7 @@ function glancePicture(type) {
                     } else if (pValue[1] == 0 && cValue[0] == 0) {// если все точки сданы и экзамен наступил, но не сдан
                         let redCircle = document.createElement('span')
                         redCircle.classList.add('material-symbols-outlined', 'red', 'clickable')
-                        redCircle.textContent = 'radio_button_checked'
+                        redCircle.textContent = 'radio_button_unchecked'
                         redCircle.setAttribute('data-tooltip', `${cValue[2]} не сдан(а)`)
                         td22.appendChild(redCircle)
                         redValueCount++
@@ -153,6 +154,7 @@ function glancePicture(type) {
             }else if (type==1){
                 let totalPointsPerSubject=pValue[3]
                 let passedPoints=pValue[0]+pValue[1]
+                let countGreenPoints=0
                 if (pValue[1]!=0){
                     countStudents[s]++
                 }
@@ -161,15 +163,16 @@ function glancePicture(type) {
                     if (pValue[2].includes(i+1)){
                         circle.classList.add('material-symbols-outlined', 'gre', 'clickable')
                         circle.textContent = 'done'
+                        countGreenPoints++
                         greValueCount++
                     }else{
                         if (passedPoints<i+1){
                             circle.classList.add('material-symbols-outlined', 'white', 'clickable')
-                            circle.textContent = 'radio_button_checked'
+                            circle.textContent = 'radio_button_unchecked'
                             circle.setAttribute('data-tooltip', `Не наступила`)
                         }else{
                             circle.classList.add('material-symbols-outlined', 'red', 'clickable')
-                            circle.textContent = 'radio_button_checked'
+                            circle.textContent = 'radio_button_unchecked'
                             circle.setAttribute('data-tooltip', `Не сдана`)
                             redValueCount++
                             valuesPerSubject[s]++
@@ -177,6 +180,11 @@ function glancePicture(type) {
                         
                     }
                     td22.appendChild(circle)
+                }
+                if(totalPointsPerSubject!=0){
+                    if(totalPointsPerSubject==countGreenPoints){
+                        td22.classList.add('closed')
+                    }
                 }
 
                 
@@ -216,6 +224,10 @@ function glancePicture(type) {
         }
     }
     document.getElementById('total').textContent = totalPerGroup
+    let sortSpan=document.createElement('span')
+    sortSpan.classList.add('material-symbols-outlined')
+    sortSpan.innerText='sort'
+    document.getElementById('total').appendChild(sortSpan)
     document.getElementById('totalStud').textContent = totalPerGroupSt
     if (totalPerGroup == 0) {
         document.getElementById('total').classList.add('countDivForSubjectGre')
@@ -241,7 +253,7 @@ function glancePicture(type) {
 //         if (target.classList.contains('gre')) {
 //             target.classList.remove('gre')
 //             target.classList.add('red')
-//             target.textContent = 'radio_button_checked'
+//             target.textContent = 'radio_button_unchecked'
 //             element1.textContent = `${number1 + 1}`
 //             element2.textContent = `${number2 + 1}`
 //         } else if (target.classList.contains('red')) {

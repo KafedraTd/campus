@@ -38,6 +38,7 @@ window.onload = function () {
 }
 
 function fillMainTable(data) {
+    
     let uniq = 0
     let teachers = []
     for (let subjArray of data.slice(1)) {

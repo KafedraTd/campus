@@ -115,14 +115,11 @@ h1 {
   transform: translateY(0);
 }
 
-table {
-  border-collapse: collapse;
-  max-width: 400px;
-  display: inline-block;
-  background-color: #eeeeee;
+
+
+.red{
+  background-color: rgba(255, 0, 0,0.2);
 }
-
-
 
 
 th,
@@ -224,6 +221,18 @@ button{
 
 .disableSelectTag{
   pointer-events:none;
+}
+
+.gre{
+  color: #0f7a65;
+}
+
+table {
+  border-collapse: collapse;
+  max-width: 400px;
+  display: inline-block;
+  background-color: #eeeeee;
+  border: #eeeeee 1px solid;
 }
 
 .loader {

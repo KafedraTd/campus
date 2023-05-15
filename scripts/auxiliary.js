@@ -83,7 +83,6 @@ function glancePicture(type) {
             let pValue = specData[group][fioLine][s]['points']
             //pValue[1]==0 - точки закрыты
             //cValue[0]==0 - экзамены не закрыты
-
             if (type == 0) {
                 if (pValue[0] == 0 && pValue[1] == 0) {//если точки не наступили
                 } else if (cValue[2] == 'Зачет') {// если зачет по предмету
@@ -177,21 +176,24 @@ function glancePicture(type) {
                             redValueCount++
                             valuesPerSubject[s]++
                         }
-                        
                     }
                     td22.appendChild(circle)
                 }
                 if(totalPointsPerSubject!=0){
-                    if(totalPointsPerSubject==countGreenPoints){
-                        td22.classList.add('closed')
+                    if(cValue[2]=='Зачет'){
+                        if(totalPointsPerSubject==countGreenPoints){
+                            td22.classList.add('closed')
+                        }
+                    }else if(cValue[0]==1){
+                        if(totalPointsPerSubject==countGreenPoints){
+                            td22.classList.add('closed')
+                        }
                     }
+                }else if(cValue[0]==1){
+                    td22.classList.add('material-symbols-outlined','closed')
+                    td22.textContent='done'
                 }
-
-                
-                
-
             }
-
             tr2.appendChild(td22)
         }
         if (redValueCount!=0){totalPerGroupSt++}

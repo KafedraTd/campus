@@ -178,7 +178,7 @@ function fillSubTable(result, values, s) {
         thArray.push(controlType)
         thArrayI.push(2)
     }
-
+    
     let currentGroup = 0
     let tr = document.createElement('tr')
     let trs = theadS.getElementsByTagName('tr')
@@ -214,7 +214,7 @@ function fillSubTable(result, values, s) {
         if (fio[1] != currentGroup) { //перевести в число
             tr.classList.add('hideTrs')
         }
-
+        
         for (let i of thArrayI) {
             let td = document.createElement('td')
             if (i == 0) {
@@ -232,8 +232,8 @@ function fillSubTable(result, values, s) {
                     let opt = document.createElement('option')
                     opt.value = op
                     if(op==5){
-                        opt.textContent='check_box'
                         opt.classList.add('material-symbols-outlined')
+                        opt.textContent='check_box'
                     }else{
                         opt.textContent = op
                     }
@@ -253,8 +253,10 @@ function fillSubTable(result, values, s) {
                     sendingNameData.value = ''
                     sendingNameData.value = sendingArray
                 })
-                td.classList.add('containsNote')
                 td.appendChild(selectTag)
+                if(selectTag.selectedIndex==''){
+                    td.classList.add('red')
+                }
             }
             tr.appendChild(td)
         }
